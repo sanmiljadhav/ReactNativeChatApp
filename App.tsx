@@ -5,17 +5,22 @@
  * @format
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   useColorScheme,
   View,
+  Alert
 } from 'react-native';
+
+import SafeAreaView from 'react-native-safe-area-view';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 import {
   Colors,
@@ -24,6 +29,14 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import Login from './Screens/Auth/Login';
+import RegisterPage from './Screens/Auth/Register';
+import {NavigationContainer} from '@react-navigation/native';
+import Homescreen from './Screens/Homescreen';
+import Chatscreen from './Screens/Chatscreen';
+import { PermissionsAndroid, Platform } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -62,37 +75,38 @@ function App(): React.JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+
+  const requestNotificationPermission = async () => {
+    // Check if the platform is Android and version is 33+ (Android 13 and above)
+    if (Platform.OS === 'android' && Platform.Version >= 33) {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Notification permission granted');
+        } else {
+          console.log('Notification permission denied');
+        }
+      } catch (error) {
+        console.log('Error requesting notification permission:', error);
+      }
+    }
+  };
+
+  useEffect(()=>{
+    requestNotificationPermission()
+  },[])
+
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName='register'>
+        <Stack.Screen name="login" component={Login} />
+        <Stack.Screen name="register" component={RegisterPage} />
+        <Stack.Screen name="home" component={Homescreen}/>
+        <Stack.Screen name = "chatscreen" component={Chatscreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
