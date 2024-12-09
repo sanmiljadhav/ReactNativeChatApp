@@ -25,16 +25,16 @@ import firestore from '@react-native-firebase/firestore';
 //import endpoints
 
 function RegisterPage() {
-  const [name, setName] = useState('');
-  const [nameVerify, setNameVerify] = useState(false);
-  const [email, setEmail] = useState('');
-  const [emailVerify, setEmailVerify] = useState(false);
-  const [mobile, setMobile] = useState('');
-  const [mobileVerify, setMobileVerify] = useState(false);
-  const [password, setPassword] = useState('');
-  const [passwordVerify, setPasswordVerify] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [name, setName] = useState<string>('');
+  const [nameVerify, setNameVerify] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
+  const [emailVerify, setEmailVerify] = useState<boolean>(false);
+  const [mobile, setMobile] = useState<string>('');
+  const [mobileVerify, setMobileVerify] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>('');
+  const [passwordVerify, setPasswordVerify] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const navigation = useNavigation();
 

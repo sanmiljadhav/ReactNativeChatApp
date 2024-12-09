@@ -12,6 +12,8 @@ export const getFcmToken = async userId => {
     // Get the FCM token for the device
     const fcmToken = await messaging().getToken();
 
+    console.log("Fcm token is", fcmToken)
+
     if (fcmToken) {
       // Store the FCM token in Firestore for the user
       await firestore().collection('Users').doc(userId).update({

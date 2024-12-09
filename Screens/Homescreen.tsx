@@ -16,17 +16,23 @@ import {useNavigation} from '@react-navigation/native';
 import StorageUtils from '../utils/Storage_utils'; // Import StorageUtils to get the user profile
 import messaging from '@react-native-firebase/messaging';
 import {getFcmToken} from '../helper/sendNotificationsHelper';
+import { LoggedInUser } from '../interfaces';
+import { User } from '../interfaces';
 // Import styles from your styles.js
 
 const Homescreen = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const navigation = useNavigation();
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState<LoggedInUser | null>(null);
+
+  
 
   const fetchUserProfile = async () => {
     // Fetch the logged-in user's profile from AsyncStorage
     const profile = await StorageUtils.getUserProfile();
+
+   
     if (profile) {
       setLoggedInUser(profile);
     }

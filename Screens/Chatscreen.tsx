@@ -14,17 +14,27 @@ import firestore from '@react-native-firebase/firestore';
 import {useRoute} from '@react-navigation/native';
 import StorageUtils from '../utils/Storage_utils';
 import {sendPushNotificationToReceiver} from '../helper/sendNotificationsHelper';
+import { combineTransition } from 'react-native-reanimated';
+import { User } from '../interfaces';
+import { Message } from '../interfaces';
 
 export default function Chatscreen() {
+
+  interface RouteParams {
+    userData: User;
+    loggedInUserId: string | null | undefined; // loggedInUserId will be of type string
+  }
+
   const route = useRoute();
-  const {userData, loggedInUserId} = route.params; // Get recipient data from navigation params
-  const [recipient, setRecipientData] = useState(userData);
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [chatId, setChatId] = useState(null);
+  const {userData, loggedInUserId} = route.params as RouteParams; // Get recipient data from navigation params
+  const [recipient, setRecipientData] = useState<User>(userData);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState<string>('');
+  const [chatId, setChatId] = useState<string | null>(null);
   const navigation = useNavigation();
 
   const recipientId = recipient.id;
+
 
   // Generate a unique chat ID using user IDs (to maintain consistent chat for two users)
   const generateChatId = (user1Id, user2Id) => {
@@ -158,7 +168,7 @@ export default function Chatscreen() {
           placeholderTextColor="#999"
         />
         <TouchableOpacity onPress={handleSendMessage} style={styles.sendButton}>
-          <Text>Send</Text>
+          <Text style = {styles.sendBtnText}>Send</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -226,4 +236,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 50,
   },
+  sendBtnText:{
+    color:'white',
+    fontWeight:'bold'
+  }
 });

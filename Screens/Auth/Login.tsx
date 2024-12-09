@@ -18,11 +18,11 @@ import firestore from '@react-native-firebase/firestore'; // Firestore import
 import StorageUtils from '../../utils/Storage_utils';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [emailVerify, setEmailVerify] = useState(false);
-  const [password, setPassword] = useState('');
-  const [passwordVerify, setPasswordVerify] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState<string>('');
+  const [emailVerify, setEmailVerify] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>('');
+  const [passwordVerify, setPasswordVerify] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const navigation = useNavigation();
 
