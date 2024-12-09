@@ -124,19 +124,9 @@ function RegisterPage() {
       navigation.navigate('register');
     }
 
-    getData();
   }, [isLoggedIn]);
 
-  const getData = async () => {
-    try {
-      const users = await firestore()
-        .collection('Users')
-        .doc('IBmEUEAYEi8MofpEVbW2')
-        .get();
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
 
   return (
     <ScrollView
